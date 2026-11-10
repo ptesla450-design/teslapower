@@ -5,7 +5,7 @@
 
   const configured = window.AURA_SUPABASE_URL &&
     window.AURA_SUPABASE_ANON_KEY &&
-    !window.AURA_SUPABASE_URL.includes("ptesla450-design") &&
+    !window.AURA_SUPABASE_URL.includes("TESLAPOWER") &&
     !window.AURA_SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
 
   if (!configured || !window.supabase) {
