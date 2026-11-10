@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aura Farm of Tesla | Admin</title>
+<style>
+:root{font-family:Inter,system-ui,Arial,sans-serif;color:#17231c;background:#f4f7f4;--green:#0e7a4b;--line:#dce5dd}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;background:var(--green);color:white;font-weight:650}button.secondary{background:#e7efe9;color:#1a3828}button.danger{background:#a83434}.wrap{max-width:1150px;margin:auto;padding:24px}.hidden{display:none!important}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px #173b2010}.login{max-width:420px;margin:8vh auto}.brand{color:var(--green);font-weight:800;letter-spacing:.02em}.muted{color:#65746a}.field{display:grid;gap:6px;margin:12px 0}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;background:white;color:#17231c}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.metric strong{font-size:30px;display:block;color:var(--green)}.layout{display:grid;grid-template-columns:210px 1fr;gap:18px}.side{display:grid;align-content:start;gap:8px}.side button{text-align:left}.side button.active{background:#17432e}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:#607066}.tablewrap{overflow:auto}.notice{padding:12px;border-radius:10px;background:#fff6df;color:#684b10;margin:12px 0}.success{background:#e5f5e9;color:#14552f}.error{background:#ffeded;color:#8a2525}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.actions{display:flex;gap:6px}.actions button{padding:7px 10px;font-size:12px}@media(max-width:760px){.layout{grid-template-columns:1fr}.side{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.wrap{padding:14px}.formgrid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="login" class="card login">
+    <div class="brand">AURA FARM OF TESLA</div><h1>Admin Login</h1>
+    <p class="muted">Sign in to manage cattle, enquiries and farm records.</p>
+    <div class="field"><label>Email</label><input id="email" type="email" autocomplete="username" required></div>
+    <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+    <button id="loginBtn">Sign in</button><p id="loginMsg" class="muted" role="status"></p>
+  </section>
+
+  <section id="app" class="hidden">
+    <div class="top"><div><div class="brand">AURA FARM OF TESLA</div><h1>Farm Admin Dashboard</h1></div><button class="secondary" id="logoutBtn">Sign out</button></div>
+    <div class="layout">
+      <aside class="card side">
+        <button data-tab="overview" class="active">Overview</button>
+        <button data-tab="cattle">Cattle</button>
+        <button data-tab="enquiries">Enquiries</button>
+        <button data-tab="expenses">Expenses</button>
+        <button data-tab="health">Health records</button>
+      </aside>
+      <main>
+        <div id="message" class="notice hidden"></div>
+        <section id="overview" class="tab">
+          <div class="grid">
+            <div class="card metric"><span class="muted">Total cattle</span><strong id="mCattle">—</strong></div>
+            <div class="card metric"><span class="muted">Available</span><strong id="mAvailable">—</strong></div>
+            <div class="card metric"><span class="muted">New enquiries</span><strong id="mEnquiries">—</strong></div>
+            <div class="card metric"><span class="muted">Recorded expenses (BDT)</span><strong id="mExpenses">—</strong></div>
+          </div>
+          <div class="card"><h2>Welcome to your farm control panel</h2><p class="muted">Use the menu to manage livestock and customer enquiries. Keep animal, price and customer information accurate.</p></div>
+        </section>
+
+        <section id="cattle" class="tab hidden">
+          <div class="card">
+            <h2>Add cattle</h2>
+            <form id="cattleForm">
+              <div class="formgrid">
+                <div class="field"><label>Name / title *</label><input name="name" required></div>
+                <div class="field"><label>Tag number</label><input name="tag_number"></div>
+                <div class="field"><label>Category</label><select name="category"><option>Cow</option><option>Bull</option><option>Calf</option><option>Qurbani cattle</option></select></div>
+                <div class="field"><label>Breed</label><input name="breed"></div>
+                <div class="field"><label>Age (months)</label><input name="age_months" type="number" min="0"></div>
+                <div class="field"><label>Weight (kg)</label><input name="weight_kg" type="number" min="0" step=".1"></div>
+                <div class="field"><label>Purchase price (BDT)</label><input name="purchase_price" type="number" min="0" value="0"></div>
+                <div class="field"><label>Sale price (BDT)</label><input name="sale_price" type="number" min="0" value="0"></div>
+                <div class="field"><label>Status</label><select name="status"><option value="available">Available</option><option value="reserved">Reserved</option><option value="sold">Sold</option></select></div>
+                <div class="field"><label>Photo</label><input name="photo" type="file" accept="image/*"></div>
+              </div>
+              <div class="field"><label>Description</label><textarea name="description" rows="3"></textarea></div>
+              <button type="submit">Save cattle</button>
+            </form>
+          </div>
+          <div class="card" style="margin-top:14px"><h2>Cattle inventory</h2><div class="tablewrap"><table><thead><tr><th>Name</th><th>Tag</th><th>Breed</th><th>Weight</th><th>Price</th><th>Status</th><th>Action</th></tr></thead><tbody id="cattleRows"></tbody></table></div></div>
+        </section>
+
+        <section id="enquiries" class="tab hidden"><div class="card"><h2>Customer enquiries</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Interest</th><th>Message</th><th>Status</th><th>Action</th></tr></thead><tbody id="enquiryRows"></tbody></table></div></div></section>
+
+        <section id="expenses" class="tab hidden">
+          <div class="card"><h2>Add farm expense</h2><form id="expenseForm"><div class="formgrid">
+            <div class="field"><label>Date</label><input name="expense_date" type="date"></div>
+            <div class="field"><label>Category</label><select name="category"><option>Feed</option><option>Medicine</option><option>Veterinary</option><option>Labour</option><option>Transport</option><option>Other</option></select></div>
+            <div class="field"><label>Amount (BDT)</label><input name="amount" type="number" min="0" step=".01" required></div>
+            <div class="field"><label>Description</label><input name="description"></div>
+          </div><button type="submit">Save expense</button></form></div>
+          <div class="card" style="margin-top:14px"><h2>Expense history</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount (BDT)</th></tr></thead><tbody id="expenseRows"></tbody></table></div></div>
+        </section>
+
+        <section id="health" class="tab hidden">
+          <div class="card"><h2>Add health record</h2><form id="healthForm"><div class="formgrid">
+            <div class="field"><label>Cattle</label><select name="cattle_id" id="healthCattle" required></select></div>
+            <div class="field"><label>Date</label><input name="record_date" type="date"></div>
+            <div class="field"><label>Record type</label><select name="record_type"><option>Vaccination</option><option>Medicine</option><option>Veterinary visit</option><option>Weight check</option><option>Other</option></select></div>
+            <div class="field"><label>Cost (BDT)</label><input name="cost" type="number" min="0" value="0"></div>
+            <div class="field"><label>Next due date</label><input name="next_due_date" type="date"></div>
+          </div><div class="field"><label>Notes</label><textarea name="notes"></textarea></div><button type="submit">Save health record</button></form></div>
+          <div class="card" style="margin-top:14px"><h2>Health history</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Cattle</th><th>Type</th><th>Notes</th><th>Cost</th><th>Next due</th></tr></thead><tbody id="healthRows"></tbody></table></div></div>
+        </section>
+      </main>
+    </div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
+<script>
+(function(){
+ const ready=window.AURA_SUPABASE_URL && window.AURA_SUPABASE_ANON_KEY &&
+   !window.AURA_SUPABASE_URL.includes("YOUR-PROJECT") &&
+   !window.AURA_SUPABASE_ANON_KEY.includes("YOUR_SUPABASE") && window.supabase;
+ const $=id=>document.getElementById(id);
+ if(!ready){$("loginMsg").textContent="Setup required: configure supabase-config.js and run supabase-schema.sql first."; $("loginBtn").disabled=true;return;}
+ const db=window.supabase.createClient(window.AURA_SUPABASE_URL,window.AURA_SUPABASE_ANON_KEY);
+ const msg=(s,bad=false)=>{$("message").textContent=s;$("message").className="notice "+(bad?"error":"success");$("message").classList.remove("hidden");};
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const money=n=>"৳"+Number(n||0).toLocaleString("en-BD");
+ async function signedIn(){const {data:{session}}=await db.auth.getSession();$("login").classList.toggle("hidden",!!session);$("app").classList.toggle("hidden",!session);if(session)await refresh();}
+ $("loginBtn").onclick=async()=>{const {error}=await db.auth.signInWithPassword({email:$("email").value,password:$("password").value});$("loginMsg").textContent=error?error.message:"";if(!error)await signedIn();};
+ $("logoutBtn").onclick=async()=>{await db.auth.signOut();await signedIn();};
+ db.auth.onAuthStateChange(()=>setTimeout(signedIn,0));
+ document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("hidden",x.id!==b.dataset.tab));});
+ async function query(table,opts={}){const r=await db.from(table).select("*").order("created_at",{ascending:false});if(r.error)throw r.error;return r.data;}
+ async function refresh(){
+   try{
+     const [cattle,enquiries,expenses,health]=await Promise.all([query("cattle"),query("enquiries"),query("expenses"),query("health_records")]);
+     $("mCattle").textContent=cattle.length;$("mAvailable").textContent=cattle.filter(x=>x.status==="available").length;
+     $("mEnquiries").textContent=enquiries.filter(x=>x.status==="new").length;
+     $("mExpenses").textContent=money(expenses.reduce((a,x)=>a+Number(x.amount||0),0));
+     $("cattleRows").innerHTML=cattle.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.tag_number)}</td><td>${esc(x.breed)}</td><td>${esc(x.weight_kg)} kg</td><td>${money(x.sale_price)}</td><td>${esc(x.status)}</td><td><div class="actions"><button class="secondary" data-status="${x.id}" data-next="${x.status==="sold"?"available":"sold"}">${x.status==="sold"?"Mark available":"Mark sold"}</button><button class="danger" data-delete-cattle="${x.id}">Delete</button></div></td></tr>`).join("");
+     $("enquiryRows").innerHTML=enquiries.map(x=>`<tr><td>${new Date(x.created_at).toLocaleDateString()}</td><td>${esc(x.customer_name)}</td><td><a href="tel:${esc(x.phone)}">${esc(x.phone)}</a></td><td>${esc(x.interest)}</td><td>${esc(x.message)}</td><td>${esc(x.status)}</td><td><select data-enquiry-status="${x.id}"><option ${x.status==="new"?"selected":""}>new</option><option ${x.status==="contacted"?"selected":""}>contacted</option><option ${x.status==="converted"?"selected":""}>converted</option><option ${x.status==="closed"?"selected":""}>closed</option></select></td></tr>`).join("");
+     $("expenseRows").innerHTML=expenses.map(x=>`<tr><td>${esc(x.expense_date)}</td><td>${esc(x.category)}</td><td>${esc(x.description)}</td><td>${money(x.amount)}</td></tr>`).join("");
+     const names=Object.fromEntries(cattle.map(x=>[x.id,x.name]));
+     $("healthCattle").innerHTML=cattle.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+     $("healthRows").innerHTML=health.map(x=>`<tr><td>${esc(x.record_date)}</td><td>${esc(names[x.cattle_id]||"Deleted cattle")}</td><td>${esc(x.record_type)}</td><td>${esc(x.notes)}</td><td>${money(x.cost)}</td><td>${esc(x.next_due_date)}</td></tr>`).join("");
+     document.querySelectorAll("[data-status]").forEach(b=>b.onclick=async()=>{const {error}=await db.from("cattle").update({status:b.dataset.next,updated_at:new Date().toISOString()}).eq("id",b.dataset.status);if(error)msg(error.message,true);else{msg("Cattle status updated.");refresh();}});
+     document.querySelectorAll("[data-delete-cattle]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this cattle record?"))return;const {error}=await db.from("cattle").delete().eq("id",b.dataset.deleteCattle);if(error)msg(error.message,true);else{msg("Cattle record deleted.");refresh();}});
+     document.querySelectorAll("[data-enquiry-status]").forEach(s=>s.onchange=async()=>{const {error}=await db.from("enquiries").update({status:s.value}).eq("id",s.dataset.enquiryStatus);if(error)msg(error.message,true);else msg("Enquiry status updated.");});
+   }catch(e){msg("Could not load dashboard: "+e.message,true);}
+ }
+ $("cattleForm").onsubmit=async e=>{e.preventDefault();const f=e.currentTarget,d=new FormData(f);let image_url=null;const file=d.get("photo");if(file&&file.size){const path=Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await db.storage.from("cattle-photos").upload(path,file,{upsert:false});if(up.error){msg(up.error.message,true);return;}image_url=db.storage.from("cattle-photos").getPublicUrl(path).data.publicUrl;}
+ const payload={name:d.get("name"),tag_number:d.get("tag_number")||null,category:d.get("category"),breed:d.get("breed")||null,age_months:d.get("age_months")?Number(d.get("age_months")):null,weight_kg:d.get("weight_kg")?Number(d.get("weight_kg")):null,purchase_price:Number(d.get("purchase_price")||0),sale_price:Number(d.get("sale_price")||0),status:d.get("status"),description:d.get("description")||null,image_url};
+ const {error}=await db.from("cattle").insert(payload);if(error)msg(error.message,true);else{f.reset();msg("Cattle saved.");refresh();}};
+ $("expenseForm").onsubmit=async e=>{e.preventDefault();const f=e.currentTarget;const d=new FormData(f);const {error}=await db.from("expenses").insert({expense_date:d.get("expense_date")||undefined,category:d.get("category"),amount:Number(d.get("amount")),description:d.get("description")||null});if(error)msg(error.message,true);else{f.reset();msg("Expense saved.");refresh();}};
+ $("healthForm").onsubmit=async e=>{e.preventDefault();const f=e.currentTarget;const d=new FormData(f);const {error}=await db.from("health_records").insert({cattle_id:d.get("cattle_id"),record_date:d.get("record_date")||undefined,record_type:d.get("record_type"),cost:Number(d.get("cost")||0),next_due_date:d.get("next_due_date")||null,notes:d.get("notes")||null});if(error)msg(error.message,true);else{f.reset();msg("Health record saved.");refresh();}};
+ signedIn();
+})();
+</script>
+</body></html>

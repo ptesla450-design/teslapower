@@ -407,5 +407,11 @@ $$('svg').forEach(function(s){s.setAttribute('aria-hidden','true');s.setAttribut
 new MutationObserver(function(){R.forEach(function(r){if(r.bad)chk(r)});show()}).observe(root,{attributes:true,attributeFilter:['lang']});
 })();
 </script>
-</body>
+
+<!-- Aura Farm of Tesla: Supabase enquiry integration.
+     Configure supabase-config.js before enabling live submissions. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
+<script src="./site-backend.js"></script>
+\n</body>
 </html>
