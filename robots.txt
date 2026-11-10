@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# After you have your real domain, add this line (replace the address):
+# Sitemap: https://YOUR-DOMAIN/sitemap.xml
